@@ -7,8 +7,8 @@ import {signup} from '../api/signup';
 
 export default function Signup(){
 	const [nickname, setNickname] = useState("");
-	const [email, setEmail] = useState("kostaskarat@hotmail.com");
-	const [password, setPassword] = useState("password");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [errors, setErrors] = useState({})
 	const navigate = useNavigate();
 
