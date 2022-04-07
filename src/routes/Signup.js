@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-import signup from '../api/signup';
+import {signup} from '../api/signup';
 
 export default function Signup(){
 	const [nickname, setNickname] = useState("");
