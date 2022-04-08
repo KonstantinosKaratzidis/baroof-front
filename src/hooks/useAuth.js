@@ -1,5 +1,8 @@
 import {useState} from 'react';
 import {getLoginStatus} from '../api/login.js';
+import {logout} from '../api/logout.js';
+
+const apiLogout = logout;
 
 export default function useAuth(){
 	const [loadingAuth, setLoadingAuth] = useState(false);
@@ -19,6 +22,12 @@ export default function useAuth(){
 	}
 
 	async function logout(){
+		const resp = await apiLogout();
+		setAuthState({
+			loggedIn: false,
+			email: null,
+			nickname: null
+		})
 	}
 
 	return {

@@ -3,6 +3,7 @@ import HomePageLayout from '../components/HomePageLayout';
 import Login from './Login';
 import Signup from './Signup';
 import {useAuthContext} from '../components/AuthProvider';
+import UserLayout from '../components/UserLayout';
 
 function RedirectToLogin(){
 	const {isLoggedIn} = useAuthContext();
@@ -22,8 +23,15 @@ export default function User(){
 				<Route path="signup" element={<Signup />} />
 			</Route>
 			<Route element={<RedirectToLogin />}>
-				<Route path="/" element={<h1>Home</h1>} />
+				<Route element={<UserLayout />}>
+					<Route index element={
+						<Navigate to="/user/library" replace={true}/ >}
+					/>
+					<Route path="library" element={<h1>Library</h1>} />
+					<Route path="reports" element={<h1>Reports</h1>} />
+				</Route>
 			</Route>
 		</Routes>
 	)
 }
+
