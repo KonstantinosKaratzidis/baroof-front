@@ -2,30 +2,6 @@ import {Outlet} from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
-import {Link} from 'react-router-dom';
-import Stack from '@mui/material/Stack';
-
-const StyledLink = ({outlined, to, children, ...props}) => {
-	return (
-		<Link to={to} style={{textDecoration: "none"}}>
-			<Box sx={{
-				backgroundColor: outlined ? "transparent" : "white",
-				width: "100px",
-				textAlign: "center",
-				padding: "5px 0",
-				borderRadius: "10px",
-				border: "2px solid white"
-			}}>
-				<Typography component="span" variant="h6" sx={{
-					color: outlined ? "white" : "black",
-					fontWeight: "bold",
-				}}>
-					{children}
-				</Typography>
-			</Box>
-		</Link>
-	)
-}
 
 export default function HomePageLayout({children, ...props}){
 	return (
@@ -45,12 +21,6 @@ export default function HomePageLayout({children, ...props}){
 				<Paper>
 					<Outlet />
 				</Paper>
-			</Box>
-			<Box sx={{position: "absolute", top: 10, right: 10}}>
-				<Stack direction="row" spacing={1}>
-					<StyledLink to="/login">Login</StyledLink>
-					<StyledLink to="/signup" outlined>Signup</StyledLink>
-				</Stack>
 			</Box>
 		</Box>
 	);

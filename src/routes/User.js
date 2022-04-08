@@ -1,16 +1,16 @@
-import {useEffect, useState} from 'react';
-import {getLoginStatus} from '../api/login.js';
+import {Routes, Route} from 'react-router-dom';
+import HomePageLayout from '../components/HomePageLayout';
+import Login from './Login';
+import Signup from './Signup';
 
 export default function User(){
-	const [loggedIn, setLoggedIn] = useState(false);
-
-	const text = loggedIn ? "logged in" : "not logged in"
-
-	useEffect(() => {
-		(async function() {
-			const resp = await getLoginStatus();
-			setLoggedIn(resp.data.isLoggedIn)
-		})();
-	}, [])
-	return <h1>User {text}</h1>
+	console.log("User");
+	return (
+		<Routes>
+			<Route element={<HomePageLayout />}>
+				<Route path="/login" element={<Login />} />
+				<Route path="/signup" element={<Signup />} />
+			</Route>
+		</Routes>
+	)
 }

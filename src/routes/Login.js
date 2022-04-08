@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {useState} from 'react';
 import {login} from '../api/login';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 
 export default function Login(){
 	const [email, setEmail] = useState("");
@@ -53,6 +53,9 @@ export default function Login(){
 			<Button onClick={onSumbit}>
 				<Typography>Enter</Typography>
 			</Button>
+			<Typography>
+				Don't have an account? <Link to="/user/signup">Signup</Link>
+			</Typography>
 		</Box>
 	)
 }
