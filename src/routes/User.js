@@ -4,13 +4,19 @@ import Login from './Login';
 import Signup from './Signup';
 import {useAuthContext} from '../components/AuthProvider';
 import UserLayout from '../components/UserLayout';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function RedirectToLogin(){
-	const {isLoggedIn} = useAuthContext();
-	console.log(isLoggedIn);
+	const {isLoggedIn, loadingAuth} = useAuthContext();
+	const context = useAuthContext();
+
+	if(loadingAuth)
+		return <CircularProgress />
+
+	
 	return (
 		<>
-		{isLoggedIn ? <Outlet /> : <Navigate to="/user/login" />}
+			{isLoggedIn ? <Outlet /> : <Navigate to="/user/login" />}
 		</>
 	)
 }

@@ -7,7 +7,7 @@ const apiLogout = logout;
 export default function useAuth(){
 	const [loadingAuth, setLoadingAuth] = useState(false);
 	const [authState, setAuthState] = useState({
-		loggedIn: false,
+		isLoggedIn: false,
 		email: null,
 		nickname: null
 	});
@@ -24,7 +24,7 @@ export default function useAuth(){
 	async function logout(){
 		const resp = await apiLogout();
 		setAuthState({
-			loggedIn: false,
+			isLoggedIn: false,
 			email: null,
 			nickname: null
 		})
