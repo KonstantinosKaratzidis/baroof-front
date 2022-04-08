@@ -28,3 +28,21 @@ export async function fetchPost(endpoint, data){
 	const respData = await response.json();
 	return respData;
 }
+
+export async function fetchGet(endpoint, data){
+	const url = makeURL(endpoint);
+	const response = await fetch(url, {
+		method: "GET",
+		headers: {
+			"Accept": "application/json"
+		}
+	})
+	if(!response.ok){
+		return {
+			success: false,
+			msg: "Unknown error"
+		}
+	}
+	const respData = await response.json();
+	return respData;
+}
