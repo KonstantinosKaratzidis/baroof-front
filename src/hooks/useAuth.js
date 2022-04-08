@@ -28,6 +28,7 @@ export default function useAuth(){
 			email: null,
 			nickname: null
 		})
+		return resp;
 	}
 
 	return {

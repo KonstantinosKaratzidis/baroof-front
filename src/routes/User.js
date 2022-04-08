@@ -8,7 +8,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 
 function RedirectToLogin(){
 	const {isLoggedIn, loadingAuth} = useAuthContext();
-	const context = useAuthContext();
 
 	if(loadingAuth)
 		return <CircularProgress />
