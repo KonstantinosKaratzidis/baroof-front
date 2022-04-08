@@ -17,6 +17,7 @@ export async function fetchPost(endpoint, data){
 			"Content-Type": "application/json",
 			"Accept": "application/json"
 		},
+		credentials: "include",
 		body: JSON.stringify(data)
 	})
 	if(!response.ok){
@@ -35,7 +36,8 @@ export async function fetchGet(endpoint, data){
 		method: "GET",
 		headers: {
 			"Accept": "application/json"
-		}
+		},
+		credentials: "include",
 	})
 	if(!response.ok){
 		return {
