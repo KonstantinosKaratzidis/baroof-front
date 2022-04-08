@@ -2,14 +2,16 @@ import {Input, Button} from '../components/HomePageComponents'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {useState} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate, Navigate} from 'react-router-dom';
 import {signup} from '../api/signup';
+import {useAuthContext} from '../components/AuthProvider';
 
 export default function Signup(){
 	const [nickname, setNickname] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errors, setErrors] = useState({})
+	const {isLoggedIn} = useAuthContext();
 	const navigate = useNavigate();
 
 	const onChange = (setFunc) => {
@@ -30,6 +32,10 @@ export default function Signup(){
 			navigate("/user");
 			setErrors({})
 		}
+	}
+
+	if(isLoggedIn){
+		return <Navigate to="/user" />
 	}
 
 	return (

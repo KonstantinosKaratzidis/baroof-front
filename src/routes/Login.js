@@ -3,12 +3,14 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import {useState} from 'react';
 import {login} from '../api/login';
-import {useNavigate, Link} from 'react-router-dom';
+import {useNavigate, Link, Navigate} from 'react-router-dom';
+import {useAuthContext} from '../components/AuthProvider';
 
 export default function Login(){
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [errors, setErrors] = useState({});
+	const {isLoggedIn} = useAuthContext();
 	const navigate = useNavigate();
 
 	const onChange = (changeFunc) => {
@@ -30,6 +32,10 @@ export default function Login(){
 			navigate("/user");
 			setErrors({})
 		}
+	}
+
+	if(isLoggedIn){
+		return <Navigate to="/user" />
 	}
 	
 	return (
