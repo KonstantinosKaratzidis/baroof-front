@@ -2,6 +2,7 @@ import {Routes, Route} from 'react-router-dom';
 import HomePage from './routes/HomePage';
 import Login from './routes/Login';
 import Signup from './routes/Signup';
+import User from './routes/User';
 import HomePageLayout from './components/HomePageLayout'
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
 				<Route path="login" element={<Login />} />
 				<Route path="signup" element={<Signup />} />
 			</Route>
-			<Route path="/user" element={<h1>User</h1>}>
+			<Route path="/user" element={<User />}>
 			</Route>
 		</Routes>
   );
