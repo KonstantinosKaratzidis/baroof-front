@@ -4,7 +4,6 @@ import {getBaroofs} from '../api/baroofs.js';
 const LibraryContext = createContext();
 
 export default function LibraryProvider({children}){
-	console.log("LibraryProvider");
 	const [loading, setLoading] = useState(true);
 	const [baroofs, setBaroofs] = useState([]);
 	const [error, setError] = useState("");
