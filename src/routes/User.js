@@ -5,6 +5,7 @@ import Signup from './Signup';
 import {useAuthContext} from '../components/AuthProvider';
 import UserLayout from '../components/UserLayout';
 import CircularProgress from '@mui/material/CircularProgress';
+import Library from './Library';
 
 function RedirectToLogin(){
 	const {isLoggedIn, loadingAuth} = useAuthContext();
@@ -32,7 +33,7 @@ export default function User(){
 					<Route index element={
 						<Navigate to="/user/library" replace={true}/ >}
 					/>
-					<Route path="library" element={<h1>Library</h1>} />
+					<Route path="library" element={<Library />} />
 					<Route path="reports" element={<h1>Reports</h1>} />
 				</Route>
 			</Route>
