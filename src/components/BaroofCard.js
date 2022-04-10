@@ -8,16 +8,74 @@ import CardActions from '@mui/material/CardActions';
 import Rating from '@mui/material/Rating';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import Crop169Icon from '@mui/icons-material/Crop169';
 import Button from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
 import format from 'date-format';
 import {Link} from 'react-router-dom';
+import {useState} from 'react';
+
+function BaroofMenu({baroofId}){
+	const [menuAnchor, setMenuAnchor] = useState(null);
+	const openMenu = Boolean(menuAnchor);
+
+	function onMoreActionsClicked(ev){
+		setMenuAnchor(ev.target);
+	}
+
+
+	return (
+		<>
+		<IconButton component="span" onClick={onMoreActionsClicked}>
+			<MoreVertIcon />
+		</IconButton>
+		<Menu 
+			open={openMenu}
+			anchorEl={menuAnchor}
+			onClose={() => {setMenuAnchor(null)}}
+		  anchorOrigin={{
+				vertical: 'bottom',
+				horizontal: 'right',
+			}}
+			transformOrigin={{
+				vertical: 'top',
+				horizontal: 'right',
+			}}
+		>
+			<MenuItem>
+				<ListItemIcon>
+					<EditIcon fontSize="small" />
+				</ListItemIcon>
+				<ListItemText>Edit</ListItemText>
+			</MenuItem>
+			<MenuItem>
+				<ListItemIcon>
+					<Crop169Icon fontSize="small" />
+				</ListItemIcon>
+				<ListItemText>Rename</ListItemText>
+			</MenuItem>
+			<MenuItem>
+				<ListItemIcon>
+					<DeleteIcon fontSize="small" />
+				</ListItemIcon>
+				<ListItemText>Delete</ListItemText>
+			</MenuItem>
+		</Menu>
+		</>
+	);
+}
 
 export default function BaroofCard({baroof}){
 	const dateUpdated = format("dd/MM/yy hh:mm", new Date(baroof.updatedAt));
 
-	function onChange(ev, value){
-		console.log(value)
-	}
+	// function onChange(ev, value){
+	// 	console.log(value)
+	// }
 
 	function onFavoriteChange(ev, value){
 	}
@@ -40,9 +98,7 @@ export default function BaroofCard({baroof}){
 							<CardActions disableSpacing pt={0} mt={0}>
 								<Rating max={1} value={baroof.isFavorite ? 1 : 0} onChange={onFavoriteChange}>
 								</Rating>
-								<IconButton component="span">
-									<MoreVertIcon />
-								</IconButton>
+								<BaroofMenu baroofId={baroof._id}/>
 							</CardActions>
 						</Stack>
 						<Stack direction="row" sx={{backgroundColor: "#ddd", padding: "5px 3px"}}
