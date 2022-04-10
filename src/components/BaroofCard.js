@@ -39,7 +39,7 @@ export default function BaroofCard({baroof}){
 							<CardActions disableSpacing pt={0} mt={0}>
 								<Rating max={1} value={baroof.isFavorite ? 1 : 0} onChange={onFavoriteChange}>
 								</Rating>
-								<BaroofCardMenu baroofId={baroof._id}/>
+								<BaroofCardMenu baroof={baroof}/>
 							</CardActions>
 						</Stack>
 						<Stack direction="row" sx={{backgroundColor: "#ddd", padding: "5px 3px"}}
