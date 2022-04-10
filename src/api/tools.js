@@ -48,3 +48,22 @@ export async function fetchGet(endpoint, data){
 	const respData = await response.json();
 	return respData;
 }
+
+export async function fetchDelete(endpoint, data){
+	const url = makeURL(endpoint);
+	const response = await fetch(url, {
+		method: "DELETE",
+		headers: {
+			"Accept": "application/json"
+		},
+		credentials: "include",
+	})
+	if(!response.ok){
+		return {
+			success: false,
+			msg: "Unknown error"
+		}
+	}
+	const respData = await response.json();
+	return respData;
+}
