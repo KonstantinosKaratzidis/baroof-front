@@ -1,9 +1,30 @@
 import BaroofList from '../components/BaroofList';
-import LibraryProvider from '../hooks/useLibraryContent.js';
+import LibraryProvider, {useLibraryContext} from '../hooks/useLibraryContent.js';
+import Modal from '@mui/material/Modal';
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
+
+function LoadingModal(){
+	const {loading} = useLibraryContext();
+	return (
+		<Modal open={loading}>
+			<Box sx={{
+				width: "100%",
+				height: "100%",
+				display: "flex",
+				alignItems:"center",
+				justifyContent: "center"
+			}}>
+				<CircularProgress size={100}/>
+			</Box>
+		</Modal>
+	)
+}
 
 export default function Library(){
 	return (
 		<LibraryProvider>
+			<LoadingModal />
 			<BaroofList />
 		</LibraryProvider>
 	)

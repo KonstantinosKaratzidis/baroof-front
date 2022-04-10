@@ -17,8 +17,10 @@ import DialogActions from '@mui/material/DialogActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import LimitedTextField from './LimitedTextField';
+import {useLibraryContext} from '../hooks/useLibraryContent';
 
 function DeleteDialog({onClose, baroof, ...props}){
+	const {delBaroof} = useLibraryContext();
 	return (
 		<Dialog {...props}>
 			<DialogTitle>
@@ -36,7 +38,9 @@ function DeleteDialog({onClose, baroof, ...props}){
 				>
 					Cancel
 				</Button>
-				<Button size="large" variant="contained" color="error">
+				<Button size="large" variant="contained" color="error"
+					onClick={() => delBaroof(baroof)}
+				>
 					Delete
 				</Button>
 			</DialogActions>

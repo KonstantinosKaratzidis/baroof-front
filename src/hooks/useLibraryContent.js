@@ -1,5 +1,5 @@
 import {createContext, useContext, useState, useEffect} from 'react';
-import {getBaroofs} from '../api/baroofs.js';
+import {getBaroofs, deleteBaroof} from '../api/baroofs.js';
 
 const LibraryContext = createContext();
 
@@ -23,11 +23,23 @@ export default function LibraryProvider({children}){
 		})()
 	}, [])
 
+	async function delBaroof(baroof){
+		if(!baroof)
+			return;
+		setLoading(true);
+		const resp = await deleteBaroof(baroof._id);
+		setLoading(false);
+		if(resp.success){
+			setBaroofs(baroofs.filter(({_id}) => _id !== baroof._id))
+		}
+	}
+
 	return (
 		<LibraryContext.Provider value={{
 			loading,
 			error,
-			baroofs
+			baroofs,
+			delBaroof
 		}}>
 			{children}
 		</LibraryContext.Provider>
