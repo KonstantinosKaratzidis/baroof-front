@@ -10,13 +10,18 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Button from '@mui/material/Button';
 import format from 'date-format';
+import {Link} from 'react-router-dom';
 
-export default function BaroofCard({baroof, onFavoriteChange, onEdit, onPlay}){
+export default function BaroofCard({baroof}){
 	const dateUpdated = format("dd/MM/yy hh:mm", new Date(baroof.updatedAt));
 
 	function onChange(ev, value){
 		console.log(value)
 	}
+
+	function onFavoriteChange(ev, value){
+	}
+
 	return (
 		<Card>
 			<CardActionArea disableRipple>
@@ -33,7 +38,7 @@ export default function BaroofCard({baroof, onFavoriteChange, onEdit, onPlay}){
 								{baroof.title}
 							</Typography>
 							<CardActions disableSpacing pt={0} mt={0}>
-								<Rating max={1} onChange={onFavoriteChange}>
+								<Rating max={1} value={baroof.isFavorite ? 1 : 0} onChange={onFavoriteChange}>
 								</Rating>
 								<IconButton component="span">
 									<MoreVertIcon />
@@ -41,26 +46,30 @@ export default function BaroofCard({baroof, onFavoriteChange, onEdit, onPlay}){
 							</CardActions>
 						</Stack>
 						<Stack direction="row" sx={{backgroundColor: "#ddd", padding: "5px 3px"}}
-							spacing={1} alignItems="end"
+							spacing={1} alignItems="center"
 						>
-							<Typography sx={{fontWeight: "bold"}}>
+							<Typography sx={{fontWeight: "bold", textAlign: "center"}}>
 								0 plays
 							</Typography>
-							<Typography sx={{color: "#666", flexGrow: 1}}>
+							<Typography sx={{color: "#666", textAlign: "center"}}>
 								Updated at {dateUpdated}
 							</Typography>
-							<Button variant="contained" component="div" onClick={onEdit}>
-								<Typography fontWeight="bold">
-									Edit
-								</Typography>
-							</Button>
-							<Button variant="contained" component="div" color="success"
-								onClick={onPlay}
-							>
-								<Typography fontWeight="bold">
-									Play
-								</Typography>
-							</Button>
+							<Box component="div" flexGrow={1}>
+							</Box>
+							<Link to={`/user/editor/${baroof._id}`}>
+								<Button variant="contained" component="div">
+									<Typography fontWeight="bold">
+										Edit
+									</Typography>
+								</Button>
+							</Link>
+							<Link to={`/user/host/${baroof._id}`}>
+								<Button variant="contained" component="div" color="success">
+									<Typography fontWeight="bold">
+										Play
+									</Typography>
+								</Button>
+							</Link>
 						</Stack>
 					</Box>
 				</CardContent>
