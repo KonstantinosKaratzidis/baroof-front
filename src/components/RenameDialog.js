@@ -6,9 +6,16 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {useState} from 'react';
 import LimitedTextField from './LimitedTextField';
+import {useLibraryContext} from '../hooks/useLibraryContent';
 
 export default function RenameDialog({onClose, baroof, ...props}){
 	const [title, setTitle] = useState(baroof.title);
+	const {renameBaroof} = useLibraryContext();
+
+	async function onRename(){
+		await renameBaroof(baroof, title);
+		onClose();
+	}
 
 	return (
 		<Dialog {...props}>
@@ -29,7 +36,8 @@ export default function RenameDialog({onClose, baroof, ...props}){
 					Cancel
 				</Button>
 				<Button size="large" variant="contained" color="error"
-					disabled={title.length === 0}
+					disabled={title.length === 0 || title === baroof.title}
+					onClick={onRename}
 				>
 					Rename
 				</Button>
