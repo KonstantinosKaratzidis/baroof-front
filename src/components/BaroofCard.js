@@ -11,18 +11,24 @@ import format from 'date-format';
 import {Link} from 'react-router-dom';
 import BaroofCardMenu from './BaroofCardMenu';
 import { useLibraryContext } from '../hooks/useLibraryContent';
+import {useNavigate} from 'react-router-dom';
 
 export default function BaroofCard({baroof}){
 	const dateUpdated = format("dd/MM/yy hh:mm", new Date(baroof.updatedAt));
 	const {setFavoriteBaroof} = useLibraryContext();
+	const navigate = useNavigate();
 
 	function onFavoriteChange(ev, value){
 		setFavoriteBaroof(baroof, Boolean(value));
 	}
 
+	function onClick(){
+		navigate(`/user/library/${baroof._id}`);
+	}
+
 	return (
 		<Card>
-			<CardActionArea disableRipple>
+			<CardActionArea disableRipple onClick={onClick}>
 				<CardContent>
 					<Box sx={{width: "90%", margin: "1em auto"}}>
 						<Stack direction="row">
