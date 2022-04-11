@@ -31,9 +31,9 @@ export default function User(){
 			<Route element={<RedirectToLogin />}>
 				<Route element={<UserLayout />}>
 					<Route index element={
-						<Navigate to="/user/library" replace={true}/ >}
-					/>
-					<Route path="library" element={<Library />} />
+						<Navigate to="/user/library" replace={true}/ >
+					}/>
+					<Route path="library/*" element={<Library />} />
 					<Route path="reports" element={<h1>Reports</h1>} />
 				</Route>
 			</Route>
