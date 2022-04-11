@@ -5,7 +5,7 @@ import {logout} from '../api/logout.js';
 const apiLogout = logout;
 
 export default function useAuth(){
-	const [loadingAuth, setLoadingAuth] = useState(false);
+	const [loadingAuth, setLoadingAuth] = useState(true);
 	const [authState, setAuthState] = useState({
 		isLoggedIn: false,
 		email: null,
