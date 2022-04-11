@@ -30,6 +30,27 @@ export async function fetchPost(endpoint, data){
 	return respData;
 }
 
+export async function fetchPut(endpoint, data){
+	const url = makeURL(endpoint);
+	const response = await fetch(url, {
+		method: "PUT",
+		headers: {
+			"Content-Type": "application/json",
+			"Accept": "application/json"
+		},
+		credentials: "include",
+		body: JSON.stringify(data)
+	})
+	if(!response.ok){
+		return {
+			success: false,
+			msg: "Unknown error"
+		}
+	}
+	const respData = await response.json();
+	return respData;
+}
+
 export async function fetchGet(endpoint, data){
 	const url = makeURL(endpoint);
 	const response = await fetch(url, {
