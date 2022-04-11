@@ -10,15 +10,14 @@ import Button from '@mui/material/Button';
 import format from 'date-format';
 import {Link} from 'react-router-dom';
 import BaroofCardMenu from './BaroofCardMenu';
+import { useLibraryContext } from '../hooks/useLibraryContent';
 
 export default function BaroofCard({baroof}){
 	const dateUpdated = format("dd/MM/yy hh:mm", new Date(baroof.updatedAt));
-
-	// function onChange(ev, value){
-	// 	console.log(value)
-	// }
+	const {setFavoriteBaroof} = useLibraryContext();
 
 	function onFavoriteChange(ev, value){
+		setFavoriteBaroof(baroof, Boolean(value));
 	}
 
 	return (

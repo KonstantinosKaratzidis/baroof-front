@@ -1,5 +1,5 @@
 import {createContext, useContext, useState, useEffect} from 'react';
-import {getBaroofs, deleteBaroof, renameBaroof} from '../api/baroofs.js';
+import {setFavorite, getBaroofs, deleteBaroof, renameBaroof} from '../api/baroofs.js';
 
 const LibraryContext = createContext();
 const renameBaroofApi = renameBaroof; // fixes name clash
@@ -41,12 +41,26 @@ export default function LibraryProvider({children}){
 		setLoading(true);
 		const resp = await renameBaroofApi(baroof._id, newTitle);
 		setLoading(false);
-		console.log("got response", resp);
 		if(resp.success){
 			setBaroofs(baroofs.map(baroof_ => {
 				if(baroof_._id !== baroof._id)
 					return baroof_;
 				return {...baroof_, title: newTitle}
+			}))
+		}
+	}
+
+	async function setFavoriteBaroof(baroof, isFavorite){
+		if(!baroof)
+			return;
+		setLoading(true);
+		const resp = await setFavorite(baroof._id, isFavorite);
+		setLoading(false);
+		if(resp.success){
+			setBaroofs(baroofs.map(baroof_ => {
+				if(baroof_._id !== baroof._id)
+					return baroof_;
+				return {...baroof_, isFavorite}
 			}))
 		}
 	}
@@ -57,7 +71,8 @@ export default function LibraryProvider({children}){
 			error,
 			baroofs,
 			delBaroof,
-			renameBaroof
+			renameBaroof,
+			setFavoriteBaroof
 		}}>
 			{children}
 		</LibraryContext.Provider>

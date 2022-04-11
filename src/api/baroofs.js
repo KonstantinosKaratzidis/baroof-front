@@ -15,3 +15,7 @@ export async function updateBaroof(baroofId, baroof){
 export async function renameBaroof(baroofId, newTitle){
 	return await updateBaroof(baroofId, {title: newTitle})
 }
+
+export async function setFavorite(baroofId, isFavorite){
+	return await updateBaroof(baroofId, {isFavorite})
+}
