@@ -7,6 +7,7 @@ import UserLayout from '../components/UserLayout';
 import CircularProgress from '@mui/material/CircularProgress';
 import Library from './Library';
 import LibraryProvider from '../hooks/useLibraryContent.js';
+import Editor from '../components/Editor';
 
 function RedirectToLogin(){
 	const {isLoggedIn, loadingAuth} = useAuthContext();
@@ -37,7 +38,7 @@ export default function User(){
 						}/>
 						<Route path="library/*" element={<Library />} />
 						<Route path="reports" element={<h1>Reports</h1>} />
-						<Route path="editor" element={<h1>Editor</h1>} />
+						<Route path="editor" element={<Editor />} />
 					</Route>
 				</Route>
 			</Route>
