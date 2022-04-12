@@ -1,13 +1,24 @@
 import SvgIcon from '@mui/material/SvgIcon';
 import Box from '@mui/material/Box';
 
-function Boxed({children, backgroundColor}){
+const colors = [
+	"red",
+	"blue",
+	"#d89e00",
+	"green"
+];
+
+export function getIconColor(index){
+	return colors[index];
+}
+
+function Boxed({children, backgroundColor, width="36px", height="36px"}){
 	return (
 		<Box sx={{
 			padding: 1,
 			backgroundColor,
-			width: "36px",
-			height: "36px",
+			width,
+			height,
 			display: "flex",
 			justifyContent: "center",
 			alignItems: "center",
@@ -20,7 +31,7 @@ function Boxed({children, backgroundColor}){
 
 export function Question1Icon({...props}){
 	return (
-		<Boxed backgroundColor="red" {...props}>
+		<Boxed backgroundColor={getIconColor(0)} {...props}>
 			<SvgIcon viewBox="0 0 100 100" htmlColor="white">
 				<polygon points="50,0 100,100, 0,100" />
 			</SvgIcon>
@@ -29,7 +40,7 @@ export function Question1Icon({...props}){
 }
 export function Question2Icon({...props}){
 	return (
-		<Boxed backgroundColor="blue" {...props}>
+		<Boxed backgroundColor={getIconColor(1)} {...props}>
 			<SvgIcon viewBox="0 0 100 100" htmlColor="white">
 				<polygon points="50,0 100,50 50,100 0,50" />
 			</SvgIcon>
@@ -38,7 +49,7 @@ export function Question2Icon({...props}){
 }
 export function Question3Icon({...props}){
 	return (
-		<Boxed backgroundColor="#d89e00" {...props}>
+		<Boxed backgroundColor={getIconColor(2)} {...props}>
 			<SvgIcon viewBox="0 0 100 100" htmlColor="white">
 				<circle cx="50" cy="50" r="50" />
 			</SvgIcon>
@@ -47,7 +58,7 @@ export function Question3Icon({...props}){
 }
 export function Question4Icon({...props}){
 	return (
-		<Boxed backgroundColor="green" {...props}>
+		<Boxed backgroundColor={getIconColor(3)} {...props}>
 			<SvgIcon viewBox="0 0 100 100" htmlColor="white">
 				<polygon points="0,0 100,0 100,100 0,100" />
 			</SvgIcon>
