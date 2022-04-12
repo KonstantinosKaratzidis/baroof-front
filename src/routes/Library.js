@@ -25,12 +25,12 @@ function LoadingModal(){
 
 export default function Library(){
 	return (
-		<LibraryProvider>
+		<>
 			<LoadingModal />
 			<Routes>
 				<Route path="/" element={<BaroofList />} />
 				<Route path="/:_id" element={<BaroofViewer />} />
 			</Routes>
-		</LibraryProvider>
+		</>
 	)
 }

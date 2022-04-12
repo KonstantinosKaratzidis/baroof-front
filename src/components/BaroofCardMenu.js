@@ -24,7 +24,7 @@ export default function BaroofMenu({baroof}){
 	}
 
 	function onEdit(){
-		navigate(`/user/editor/${baroof._id}`);
+		navigate(`/user/editor?_id=${baroof._id}`);
 	}
 
 	function onDelete(){

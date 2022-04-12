@@ -1,5 +1,6 @@
 import {createContext, useContext, useState, useEffect} from 'react';
 import {setFavorite, getBaroofs, deleteBaroof, renameBaroof} from '../api/baroofs.js';
+import {Outlet} from 'react-router-dom';
 
 const LibraryContext = createContext();
 const renameBaroofApi = renameBaroof; // fixes name clash
@@ -74,7 +75,7 @@ export default function LibraryProvider({children}){
 			renameBaroof,
 			setFavoriteBaroof
 		}}>
-			{children}
+			<Outlet />
 		</LibraryContext.Provider>
 	)
 }
