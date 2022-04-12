@@ -15,7 +15,7 @@ function basename(path){
 	return path.slice(path.lastIndexOf('/') + 1)
 }
 
-const validPaths = new Set(["library", "reports"]);
+const validPaths = new Set(["library", "reports", "editor"]);
 function getTabValue(pathname){
 	const value = basename(pathname);
 	if(!validPaths.has(value))
@@ -59,6 +59,7 @@ export default function UserLayout() {
 							<Tabs value={getTabValue(pathname)} onChange={onTabChange}>
 								<Tab value="library" label="Library"></Tab>
 								<Tab value="reports" label="Reports"></Tab>
+								<Tab value="editor" label="Editor"></Tab>
 							</Tabs>
 						</Box>
 						<Button variant="outlined" color="error" disabled={logingOut}
