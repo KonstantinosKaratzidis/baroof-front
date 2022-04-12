@@ -10,6 +10,9 @@ import Rating from '@mui/material/Rating';
 import BaroofCardMenu from './BaroofCardMenu';
 import Paper from '@mui/material/Paper';
 import Divider from '@mui/material/Divider';
+import CheckIcon from '@mui/icons-material/Check';
+import ClearIcon from '@mui/icons-material/Clear';
+import {getIconForIndex} from './QuestionIcons';
 
 function Info({baroof}){
 	const dateUpdated = format("dd/MM/yy hh:mm", new Date(baroof.updatedAt));
@@ -58,23 +61,32 @@ function Info({baroof}){
 	)
 }
 
-function Option({option}){
+function Option({option, index}){
+	const Icon = getIconForIndex(index);
 	return (
-		<Stack direction="row">
-			<Typography flexGrow={1}>{option.text}</Typography>
+		<Stack direction="row" pt={1} pb={1} spacing={1}>
+			<Icon />
+			<Box sx={{display: "flex", flexGrow: "1", alignItems: "center"}}>
+				<Typography fontSize="1.2em">{option.text}</Typography>
+			</Box>
+			{
+				option.isCorrect ? 
+				<CheckIcon sx={{fontSize: "2em",color: "green"}} /> :
+				<ClearIcon sx={{fontSize: "2em", color: "red"}} />
+			}
 		</Stack>
 	);
 }
 
 function Question({index, question}){
 	return (
-		<Paper sx={{padding: 1}}>
+		<Paper sx={{padding: 2}}>
 			<Typography variant="h4">{index} - {question.text}
 			</Typography>
 			<Divider />
-			<Stack>
+			<Stack divider={<Divider />}>
 				{question.options.map((option, index) =>
-					<Option option={option} key={index}/>)}
+					<Option option={option} index={index} key={index}/>)}
 			</Stack>
 		</Paper>
 	)
