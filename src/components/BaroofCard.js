@@ -22,60 +22,54 @@ export default function BaroofCard({baroof}){
 		setFavoriteBaroof(baroof, Boolean(value));
 	}
 
-	function onClick(){
-		navigate(`/user/library/${baroof._id}`);
-	}
-
 	return (
 		<Card>
-			<CardActionArea disableRipple onClick={onClick}>
-				<CardContent>
-					<Box sx={{width: "90%", margin: "1em auto"}}>
-						<Stack direction="row">
-							<Typography component="span" variant="h5" sx={{
-								fontWeight: "bold",
-								flexGrow: 1,
-								display: "flex",
-								flexDirection: "row",
-								alignItems: "center"
-							}}>
-								{baroof.title}
-							</Typography>
-							<CardActions disableSpacing pt={0} mt={0}>
-								<Rating max={1} value={baroof.isFavorite ? 1 : 0} onChange={onFavoriteChange}>
-								</Rating>
-								<BaroofCardMenu baroof={baroof}/>
-							</CardActions>
-						</Stack>
-						<Stack direction="row" sx={{backgroundColor: "#ddd", padding: "5px 3px"}}
-							spacing={1} alignItems="center"
-						>
-							<Typography sx={{fontWeight: "bold", textAlign: "center"}}>
-								0 plays
-							</Typography>
-							<Typography sx={{color: "#666", textAlign: "center"}}>
-								Updated at {dateUpdated}
-							</Typography>
-							<Box component="div" flexGrow={1}>
-							</Box>
-							<Link to={`/user/editor/${baroof._id}`}>
-								<Button variant="contained" component="div">
-									<Typography fontWeight="bold">
-										Edit
-									</Typography>
-								</Button>
-							</Link>
-							<Link to={`/user/host/${baroof._id}`}>
-								<Button variant="contained" component="div" color="success">
-									<Typography fontWeight="bold">
-										Play
-									</Typography>
-								</Button>
-							</Link>
-						</Stack>
-					</Box>
-				</CardContent>
-			</CardActionArea>
+			<CardContent>
+				<Box sx={{width: "90%", margin: "1em auto"}}>
+					<Stack direction="row">
+						<Typography component="span" variant="h5" sx={{
+							fontWeight: "bold",
+							flexGrow: 1,
+							display: "flex",
+							flexDirection: "row",
+							alignItems: "center"
+						}}>
+							{baroof.title}
+						</Typography>
+						<CardActions disableSpacing pt={0} mt={0}>
+							<Rating max={1} value={baroof.isFavorite ? 1 : 0} onChange={onFavoriteChange}>
+							</Rating>
+							<BaroofCardMenu baroof={baroof}/>
+						</CardActions>
+					</Stack>
+					<Stack direction="row" sx={{backgroundColor: "#ddd", padding: "5px 3px"}}
+						spacing={1} alignItems="center"
+					>
+						<Typography sx={{fontWeight: "bold", textAlign: "center"}}>
+							0 plays
+						</Typography>
+						<Typography sx={{color: "#666", textAlign: "center"}}>
+							Updated at {dateUpdated}
+						</Typography>
+						<Box component="div" flexGrow={1}>
+						</Box>
+						<Link to={`/user/library/${baroof._id}`}>
+							<Button variant="contained" component="div">
+								<Typography fontWeight="bold">
+									View
+								</Typography>
+							</Button>
+						</Link>
+						<Link to={`/user/host/${baroof._id}`}>
+							<Button variant="contained" component="div" color="success">
+								<Typography fontWeight="bold">
+									Play
+								</Typography>
+							</Button>
+						</Link>
+					</Stack>
+				</Box>
+			</CardContent>
 		</Card>
 	)
 }
