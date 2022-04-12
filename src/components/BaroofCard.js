@@ -3,7 +3,6 @@ import CardContent from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import CardActionArea from '@mui/material/CardActionArea';
 import CardActions from '@mui/material/CardActions';
 import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
@@ -11,12 +10,10 @@ import format from 'date-format';
 import {Link} from 'react-router-dom';
 import BaroofCardMenu from './BaroofCardMenu';
 import { useLibraryContext } from '../hooks/useLibraryContent';
-import {useNavigate} from 'react-router-dom';
 
 export default function BaroofCard({baroof}){
 	const dateUpdated = format("dd/MM/yy hh:mm", new Date(baroof.updatedAt));
 	const {setFavoriteBaroof} = useLibraryContext();
-	const navigate = useNavigate();
 
 	function onFavoriteChange(ev, value){
 		setFavoriteBaroof(baroof, Boolean(value));

@@ -1,6 +1,6 @@
 import BaroofList from '../components/BaroofList';
 import BaroofViewer from '../components/BaroofViewer';
-import LibraryProvider, {useLibraryContext} from '../hooks/useLibraryContent.js';
+import {useLibraryContext} from '../hooks/useLibraryContent.js';
 import Modal from '@mui/material/Modal';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
