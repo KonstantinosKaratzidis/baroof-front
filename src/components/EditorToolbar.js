@@ -26,6 +26,7 @@ export default function EditorToolbar({state}){
 				value={baroof.title}
 				onChange={onTitleChange}
 				limit={95}
+				placeholder="Title"
 			/>
 			<Box flexGrow={1} />
 			<Button variant="outlined" onClick={onExit}>
