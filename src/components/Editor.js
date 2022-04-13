@@ -8,6 +8,7 @@ import {EditorProvider, useEditorContext} from '../hooks/useEditorContext';
 import CircularProgress from '@mui/material/CircularProgress';
 import EditorSlides from './EditorSlides';
 import * as _ from 'lodash';
+import LoadingModal from './LoadingModal';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
@@ -159,14 +160,17 @@ function ExitDialog({...props}){
 function EditorInner(){
 	const baroof = useGetBaroof();
 	const initialState = {
-		loading: false,
+		loading: true,
 		baroof: _.cloneDeep(baroof),
 		editIndex: 0,
 		showExitModal: false,
 		hasChanges: false
 	}
 	const [state, dispatch] = useReducer(reducer, initialState);
-	console.log("has changes", state.hasChanges);
+
+	async function onSave(){
+		console.log("save")
+	}
 
 	if(!state.hasChanges && state.showExitModal)
 		return <Navigate to="/user/library" />
@@ -174,10 +178,11 @@ function EditorInner(){
 	return (
 		<EditorProvider dispatch={dispatch}>
 			<Box>
+				<LoadingModal open={state.loading} />
 				<ExitDialog open={state.showExitModal}
 					onClose={() => dispatch({action: "EXIT", value: false})}
 				/>
-				<EditorToolbar state={state}/>
+				<EditorToolbar state={state} onSave={onSave}/>
 				<EditorSlides state={state}/>
 				<QuestionEditor state={state} />
 			</Box>
