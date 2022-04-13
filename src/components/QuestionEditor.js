@@ -4,17 +4,28 @@ import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import {getIconForIndex, getIconColor} from './QuestionIcons';
 import {useEditorContext} from '../hooks/useEditorContext';
+import * as _ from 'lodash';
+import IconButton from '@mui/material/IconButton';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
 function OptionEditor({option}){
 	const {dispatch} = useEditorContext();
 	const isSet = option.text !== "";
-	const {index} = option;
+	const {index, isCorrect} = option;
 	const Icon = getIconForIndex(index);
 
 	function onTextChange(ev){
 		dispatch({action: "OPTION", value: {
 			...option,
 			text: ev.target.value,
+		}})
+	}
+
+	function onCorrectClicked(ev, val){
+		dispatch({action: "OPTION", value: {
+			...option,
+			isCorrect: !isCorrect
 		}})
 	}
 
@@ -26,7 +37,7 @@ function OptionEditor({option}){
 				backgroundColor: isSet ? getIconColor(index) : "transparent"
 			}}
 		>
-			<Stack direction="row" alignItems="center">
+			<Stack direction="row" alignItems="center" spacing={1}>
 				<Icon height="80px"/>
 				<LimitedTextField
 					value={option.text}
@@ -34,19 +45,26 @@ function OptionEditor({option}){
 					limit={75}
 					inputProps={{style: {color: isSet ? "white" : "inherit"}}}
 					onChange={onTextChange}
+					placeholder="Type answer"
+					sx={{flexGrow: 1}}
+					multiline
+					minRows={2}
 				/>
+				<IconButton onClick={onCorrectClicked}>
+					{ isCorrect ? 
+						<CheckCircleOutlineIcon /> :
+						<RadioButtonUncheckedIcon />
+					}
+				</IconButton>
 			</Stack>
 		</Paper>
 	)
 }
 
-
 export default function QuestionEditor({question, onChange}){
 	const {dispatch} = useEditorContext();
 
-	function getOption(index){
-		return question.options.filter(option => option.index === index)[0]
-	}
+	const getOption = (index) => _.find(question.options, ["index", index])
 
 	function onQuestionTextChange(ev){
 		dispatch({action: "QUESTION_TEXT", value: ev.target.value})
@@ -81,3 +99,4 @@ export default function QuestionEditor({question, onChange}){
 		</Grid>
 	)
 }
+

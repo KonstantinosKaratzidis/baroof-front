@@ -10,6 +10,14 @@ export default function EditorToolbar({baroof}){
 		dispatch({action: "BAROOF_TITLE", value: ev.target.value})
 	}
 
+	function onExit(){
+		dispatch({action: "EXIT"})
+	}
+
+	function onSave(){
+		dispatch({action: "SAVE"})
+	}
+
 	return (
 		<Stack mt={2} direction="row" spacing={2}>
 			<LimitedTextField
@@ -19,11 +27,11 @@ export default function EditorToolbar({baroof}){
 				limit={95}
 			/>
 			<Box flexGrow={1} />
-			<Button variant="outlined" onClick={() => {}}>
+			<Button variant="outlined" onClick={onExit}>
 				Exit
 			</Button>
 			<Button variant="contained" color="success"
-				onClick={() => {}}
+				onClick={onSave}
 			>
 				Save
 			</Button>

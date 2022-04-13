@@ -5,112 +5,105 @@ import Box from '@mui/material/Box';
 import EditorToolbar from './EditorToolbar';
 import QuestionEditor from './QuestionEditor';
 import {EditorProvider} from '../hooks/useEditorContext';
-
-function normalized(baroof){
-	function normalizeQuestion(question){
-		const {options} = question;
-		const indexes = new Set();
-		for(const option of options)
-			indexes.add(option.index)
-		for(let i = 0; i < 4; i++){
-			if(!indexes.has(i))
-				options.push({index: i, isCorrect: false, text: ""})
-		}
-		return {
-			...question,
-			options
-		}
-	}
-	return {
-		...baroof,
-		questions: baroof.questions.map(normalizeQuestion)
-	}
-}
+import CircularProgress from '@mui/material/CircularProgress';
+import * as _ from 'lodash'
 
 const emptyBaroof = {
-	title: "",
+	title: "Unititled",
 	questions: [{
 		text: "",
 		options: [
 			{index: 0, isCorrect: false, text: ""},
-			{index: 0, isCorrect: false, text: ""},
-			{index: 0, isCorrect: false, text: ""},
-			{index: 0, isCorrect: false, text: ""}
+			{index: 1, isCorrect: false, text: ""},
+			{index: 2, isCorrect: false, text: ""},
+			{index: 3, isCorrect: false, text: ""}
 		]
 	}]
-};
+}
+
+function normalized(baroof){
+	if(!baroof){
+		return _.cloneDeep(emptyBaroof);
+	}
+
+	const copied = _.cloneDeep(baroof);
+	copied.questions = copied.questions.map(q =>
+		({
+			...q,
+			options: 
+		_.unionBy(q.options, [
+			{index: 0, isCorrect: false, text: ""},
+			{index: 1, isCorrect: false, text: ""},
+			{index: 2, isCorrect: false, text: ""},
+			{index: 3, isCorrect: false, text: ""}
+		], "index")
+		})
+	)
+
+	return copied;
+}
 
 function useGetBaroof(){
 	const {baroofs} = useLibraryContext();
 	const [params] = useSearchParams();
 	const _id = params.get("_id");
 
-	const matching = baroofs.filter(baroof => baroof._id === _id)
-
-	if(_id && matching.length){
-		const matchedBaroof = matching[0];
-		return(normalized(matchedBaroof))
-	}
-	else
-		return emptyBaroof;
+	const matching = _.find(baroofs, (baroof) => baroof._id === _id)
+	return normalized(matching ? matching : null);
 }
 
 function reducer(state, {action, value}){
-	if(action === "BAROOF_TITLE")
-		return {...state, title: action.value}
-	if(action === "QUESTION_TEXT"){
-		return {
-			...state,
-			baroof: {
-				...state.baroof,
-				questions: state.baroof.questions.map((q, index) => {
-					if(index !== state.editIndex)
-						return q;
-					return {
-						...q,
-						text: value
-					}
+	console.log("reducer", action);
+	const newState = _.cloneDeep(state);
+	switch(action){
+		case "SAVE":
+			break;
+		case "EXIT":
+			break;
+		case "QUESTION_TEXT":
+			newState.baroof.questions[state.editIndex].text = value;
+			break;
+		case "OPTION":
+			newState.baroof.questions[state.editIndex].options = 
+				newState.baroof.questions[state.editIndex].options.map(option => {
+					if(option.index !== value.index)
+						return option
+					return {...value};
 				})
-			}
-		};
+			break;
+		default:
+			console.log("UNKNOWN ACTION !!!")
+			break;
 	}
-	if(action === "OPTION"){
-		return {
-			...state,
-			baroof: {
-				...state.baroof,
-				questions: state.baroof.questions.map((q, index) => {
-					if(index !== state.editIndex)
-						return q;
-					return {
-						...q,
-						options:
-						state.baroof.questions[state.editIndex].options.map(option => {
-							if(option.index !== value.index)
-								return option;
-							return value
-						})
-					}
-				})
-			}
-		};
-	}
-	return state;
+	return newState;
 }
 
-export default function Editor(){
+// workaround for useReducer
+function EditorInner(){
+	const {loading} = useLibraryContext();
 	const baroof = useGetBaroof();
-	const [state, dispatch] = useReducer(reducer, {
-		baroof,
+	const initialState = {
+		loading,
+		baroof: _.cloneDeep(baroof),
 		editIndex: 0
-	});
+	}
+	const [state, dispatch] = useReducer(reducer, initialState);
+	console.log(state.baroof.questions[0].options[0].text)
 
 	return (
 		<EditorProvider dispatch={dispatch}>
 			<Box>
 				<EditorToolbar baroof={state.baroof}/>
-	 			<QuestionEditor question={baroof.questions[state.editIndex]} />
+				<QuestionEditor question={state.baroof.questions[state.editIndex]} />
 			</Box>
 		</EditorProvider>
 	)
+}
+
+export default function Editor(){
+	const {loading} = useLibraryContext();
+	if(loading)
+		return <CircularProgress />
+	else
+		return <EditorInner />
 }
