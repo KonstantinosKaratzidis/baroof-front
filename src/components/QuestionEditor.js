@@ -82,7 +82,6 @@ export default function QuestionEditor({state}){
 		)
 	}
 
-	console.log(question.text)
 	return (
 		<Grid container mt={3} spacing={1}>
 			<Grid item xs={12}>
