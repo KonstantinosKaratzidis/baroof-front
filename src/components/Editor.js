@@ -54,7 +54,7 @@ function useGetBaroof(){
 }
 
 function reducer(state, {action, value}){
-	console.log("reducer", action);
+	console.log(action, value);
 	const newState = _.cloneDeep(state);
 	switch(action){
 		case "SAVE":
@@ -71,6 +71,12 @@ function reducer(state, {action, value}){
 						return option
 					return {...value};
 				})
+			break;
+		case "EDIT_INDEX":
+			newState.editIndex = value;
+			break;
+		case "SLIDE_ADD":
+			newState.baroof.questions.push(_.cloneDeep(emptyBaroof.questions[0]))
 			break;
 		default:
 			console.log("UNKNOWN ACTION !!!")
@@ -89,7 +95,8 @@ function EditorInner(){
 		editIndex: 0
 	}
 	const [state, dispatch] = useReducer(reducer, initialState);
-	console.log(state.baroof.questions[0].options[0].text)
+	console.log(state.editIndex)
+
 
 	return (
 		<EditorProvider dispatch={dispatch}>
