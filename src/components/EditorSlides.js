@@ -7,8 +7,10 @@ import IconButton from '@mui/material/IconButton';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Paper from '@mui/material/Paper';
+import {useEditorContext} from '../hooks/useEditorContext';
 
 function Slide({question, index, selected}){
+	const {dispatch} = useEditorContext();
 	return (
 		<Box sx={{
 			border: selected ? "2px solid #aad" : "2px solid white",
@@ -20,7 +22,6 @@ function Slide({question, index, selected}){
 				sx={{
 					display: "flex",
 					flexDirection: "column",
-					width: "80px",
 					borderRadius: 1,
 					mr: "5px", ml: "5px",
 					width: "200px",
@@ -29,19 +30,12 @@ function Slide({question, index, selected}){
 						cursor: "pointer"
 					}
 				}}
+				onClick={() => dispatch({action: "EDIT_INDEX", value: index})}
 			>
-				<Typography mt={2} textAlign="center" component="div" variant="h5" sx={{flexGrow: 1}}>
+				<Typography mt={2} textAlign="center" component="div" variant="h5" sx={{flexGrow: 1, overflow: "hidden"}}>
 					{question.text}
 				</Typography>
 				<Stack direction="row" justifyContent="center" sx={{display: "flex"}}>
-					<Box>
-						<IconButton component="div">
-							<ArrowBackIcon />
-						</IconButton>
-						<IconButton component="div">
-							<ArrowForwardIcon />
-						</IconButton>
-					</Box>
 				</Stack>
 			</Paper>
 		</Box>
@@ -50,6 +44,24 @@ function Slide({question, index, selected}){
 
 export default function EditorSlides({state}){
 	const question = state.baroof.questions[0];
+	const {dispatch} = useEditorContext();
+
+	function onRemove(){
+		dispatch({action: "SLIDE_REMOVE"})
+	}
+
+	function onAdd(){
+		dispatch({action: "SLIDE_ADD"})
+	}
+
+	function onForward(){
+		dispatch({action: "SLIDE_MOVE", value: 1})
+	}
+
+	function onBackward(){
+		dispatch({action: "SLIDE_MOVE", value: -1})
+	}
+
 	return (
 		<Box sx={{
 			border: "1px solid #bbb",
@@ -61,11 +73,17 @@ export default function EditorSlides({state}){
 			flexDirection: "row",
 		}}>
 			<Box sx={{display: "flex", flexDirection: "column"}}>
-				<IconButton>
+				<IconButton onClick={onRemove}>
 					<RemoveCircleIcon color="error" fontSize="large"/>
 				</IconButton>
-				<IconButton>
+				<IconButton onClick={onAdd}>
 					<AddCircleIcon color="success" fontSize="large"/>
+				</IconButton>
+				<IconButton onClick={onBackward}>
+					<ArrowBackIcon />
+				</IconButton>
+				<IconButton onClick={onForward}>
+					<ArrowForwardIcon />
 				</IconButton>
 			</Box>
 			<Box sx={{
@@ -76,13 +94,11 @@ export default function EditorSlides({state}){
 					flexDirection: "row",
 				}}
 			>
-				<Slide question={question} index={0} selected/>
-				<Slide question={question} index={0} />
-				<Slide question={question} index={0} />
-				<Slide question={question} index={0} />
-				<Slide question={question} index={0} />
-				<Slide question={question} index={0} />
-				<Slide question={question} index={0} />
+				{state.baroof.questions.map((question, index) => (
+				<Slide question={question} index={index}
+					selected={index === state.editIndex}
+				/>
+				))}
 			</Box>
 		</Box>
 	)
