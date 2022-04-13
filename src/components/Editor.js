@@ -101,9 +101,9 @@ function EditorInner(){
 	return (
 		<EditorProvider dispatch={dispatch}>
 			<Box>
-				<EditorToolbar baroof={state.baroof}/>
+				<EditorToolbar state={state}/>
 				<EditorSlides state={state}/>
-				<QuestionEditor question={state.baroof.questions[state.editIndex]} />
+				<QuestionEditor state={state} />
 			</Box>
 		</EditorProvider>
 	)

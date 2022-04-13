@@ -4,8 +4,9 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import {useEditorContext} from '../hooks/useEditorContext';
 
-export default function EditorToolbar({baroof}){
+export default function EditorToolbar({state}){
 	const {dispatch} = useEditorContext();
+	const {baroof} = state;
 	function onTitleChange(ev){
 		dispatch({action: "BAROOF_TITLE", value: ev.target.value})
 	}

@@ -95,7 +95,7 @@ export default function EditorSlides({state}){
 				}}
 			>
 				{state.baroof.questions.map((question, index) => (
-				<Slide question={question} index={index}
+				<Slide question={question} index={index} key={index}
 					selected={index === state.editIndex}
 				/>
 				))}

@@ -61,10 +61,13 @@ function OptionEditor({option}){
 	)
 }
 
-export default function QuestionEditor({question, onChange}){
+export default function QuestionEditor({state}){
 	const {dispatch} = useEditorContext();
+	const question = state.baroof.questions[state.editIndex];
 
-	const getOption = (index) => _.find(question.options, ["index", index])
+	function getOption(index){
+		return _.find(question.options, ["index", index])
+	}
 
 	function onQuestionTextChange(ev){
 		dispatch({action: "QUESTION_TEXT", value: ev.target.value})
@@ -79,6 +82,7 @@ export default function QuestionEditor({question, onChange}){
 		)
 	}
 
+	console.log(question.text)
 	return (
 		<Grid container mt={3} spacing={1}>
 			<Grid item xs={12}>
