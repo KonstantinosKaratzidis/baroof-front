@@ -1,4 +1,4 @@
-import {fetchGet, fetchDelete, fetchPut} from './tools.js';
+import {fetchGet, fetchDelete, fetchPut, fetchPost} from './tools.js';
 
 export async function getBaroofs(){
 	return await fetchGet("/baroofs");
@@ -6,6 +6,10 @@ export async function getBaroofs(){
 
 export async function deleteBaroof(baroofId){
 	return await fetchDelete(`/baroofs/${baroofId}`);
+}
+
+export async function createBaroof(baroof){
+	return await fetchPost(`/baroofs`, baroof);
 }
 
 export async function updateBaroof(baroofId, baroof){
