@@ -4,7 +4,7 @@ import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import {useEditorContext} from '../hooks/useEditorContext';
 
-export default function EditorToolbar({state}){
+export default function EditorToolbar({state, onSave}){
 	const {dispatch} = useEditorContext();
 	const {baroof} = state;
 	function onTitleChange(ev){
@@ -13,10 +13,6 @@ export default function EditorToolbar({state}){
 
 	function onExit(){
 		dispatch({action: "EXIT", value: true})
-	}
-
-	function onSave(){
-		dispatch({action: "SAVE"})
 	}
 
 	return (

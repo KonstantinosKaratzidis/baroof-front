@@ -16,6 +16,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {useNavigate, Navigate} from 'react-router-dom';
+import {updateBaroof} from '../api/baroofs';
 
 const emptyBaroof = {
 	title: "Unititled",
@@ -64,7 +65,11 @@ function useGetBaroof(){
 function reducer(state, {action, value}){
 	const newState = _.cloneDeep(state);
 	switch(action){
-		case "SAVE":
+		case "HAS_CHANGES":
+			newState.hasChanges = value;
+			break;
+		case "SET_LOADING":
+			newState.loading = value;
 			break;
 		case "EXIT":
 			newState.showExitModal = value;
@@ -160,7 +165,7 @@ function ExitDialog({...props}){
 function EditorInner(){
 	const baroof = useGetBaroof();
 	const initialState = {
-		loading: true,
+		loading: false,
 		baroof: _.cloneDeep(baroof),
 		editIndex: 0,
 		showExitModal: false,
@@ -169,7 +174,6 @@ function EditorInner(){
 	const [state, dispatch] = useReducer(reducer, initialState);
 
 	async function onSave(){
-		console.log("save")
 	}
 
 	if(!state.hasChanges && state.showExitModal)
