@@ -6,6 +6,7 @@ import EditorToolbar from './EditorToolbar';
 import QuestionEditor from './QuestionEditor';
 import {EditorProvider} from '../hooks/useEditorContext';
 import CircularProgress from '@mui/material/CircularProgress';
+import EditorSlides from './EditorSlides';
 import * as _ from 'lodash'
 
 const emptyBaroof = {
@@ -94,6 +95,7 @@ function EditorInner(){
 		<EditorProvider dispatch={dispatch}>
 			<Box>
 				<EditorToolbar baroof={state.baroof}/>
+				<EditorSlides state={state}/>
 				<QuestionEditor question={state.baroof.questions[state.editIndex]} />
 			</Box>
 		</EditorProvider>
