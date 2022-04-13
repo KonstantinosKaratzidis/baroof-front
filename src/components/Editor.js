@@ -61,6 +61,9 @@ function reducer(state, {action, value}){
 			break;
 		case "EXIT":
 			break;
+		case "BAROOF_TITLE":
+			newState.baroof.title = value
+			break;
 		case "QUESTION_TEXT":
 			newState.baroof.questions[state.editIndex].text = value;
 			break;
@@ -77,6 +80,25 @@ function reducer(state, {action, value}){
 			break;
 		case "SLIDE_ADD":
 			newState.baroof.questions.push(_.cloneDeep(emptyBaroof.questions[0]))
+			newState.editIndex = newState.baroof.questions.length - 1;
+			break;
+		case "SLIDE_REMOVE":
+			_.pullAt(newState.baroof.questions, [newState.editIndex])
+			newState.editIndex =
+				_.clamp(newState.editIndex, 0, newState.baroof.questions.length - 1);
+			if(newState.baroof.questions.length === 0)
+				newState.baroof.questions.push(_.cloneDeep(emptyBaroof.questions[0]))
+			break;
+		case "SLIDE_MOVE":
+			const destIndex = newState.editIndex + value;
+			if(destIndex < 0 || destIndex >= newState.baroof.questions.length)
+				break;
+			const tmp = newState.baroof.questions[destIndex];
+			newState.baroof.questions[destIndex] = 
+				newState.baroof.questions[newState.editIndex];
+			newState.baroof.questions[newState.editIndex] = tmp;
+			newState.editIndex = destIndex;
+
 			break;
 		default:
 			console.log("UNKNOWN ACTION !!!")
