@@ -12,7 +12,7 @@ export default function EditorToolbar({state}){
 	}
 
 	function onExit(){
-		dispatch({action: "EXIT"})
+		dispatch({action: "EXIT", value: true})
 	}
 
 	function onSave(){
