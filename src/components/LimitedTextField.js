@@ -3,12 +3,9 @@ import InputAdornment from '@mui/material/InputAdornment';
 import {useState} from 'react';
 
 export default function LimitedTextField({limit, onChange, value, ...props}){
-	const [_value, setValue] = useState(value || "");
-
 	function valueChanged(ev){
 		if(ev.target.value.length <= limit && onChange){
 			onChange(ev);
-			setValue(ev.target.value);
 		}
 	}
 
@@ -20,7 +17,7 @@ export default function LimitedTextField({limit, onChange, value, ...props}){
 				)
 			}}
 			onChange={valueChanged}
-			value={_value}
+			value={value}
 			{...props}
 		/>
 	)
