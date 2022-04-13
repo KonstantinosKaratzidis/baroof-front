@@ -34,7 +34,7 @@ function Info({baroof}){
 			<Stack direction="row" sx={{backgroundColor: "#ddd", padding: "5px 3px"}}
 				spacing={1} alignItems="center"
 			>
-				<Link to={`/user/editor?_id${baroof._id}`}>
+				<Link to={`/user/editor?_id=${baroof._id}`}>
 					<Button variant="contained" component="div">
 						<Typography fontWeight="bold">
 							Edit
