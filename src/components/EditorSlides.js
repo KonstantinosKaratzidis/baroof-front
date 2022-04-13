@@ -43,7 +43,6 @@ function Slide({question, index, selected}){
 }
 
 export default function EditorSlides({state}){
-	const question = state.baroof.questions[0];
 	const {dispatch} = useEditorContext();
 
 	function onRemove(){
