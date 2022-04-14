@@ -16,7 +16,10 @@ import DialogActions from '@mui/material/DialogActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {useNavigate, Navigate} from 'react-router-dom';
-import {updateBaroof} from '../api/baroofs';
+import {updateBaroof, createBaroof} from '../api/baroofs.js';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 
 const emptyBaroof = {
 	title: "Unititled",
@@ -65,6 +68,12 @@ function useGetBaroof(){
 function reducer(state, {action, value}){
 	const newState = _.cloneDeep(state);
 	switch(action){
+		case "SHOW_ERROR":
+			newState.showErrorMessage = value;
+			break;
+		case "SHOW_SUCCESS":
+			newState.showSuccess = value
+			break;
 		case "HAS_CHANGES":
 			newState.hasChanges = value;
 			break;
@@ -169,11 +178,29 @@ function EditorInner(){
 		baroof: _.cloneDeep(baroof),
 		editIndex: 0,
 		showExitModal: false,
-		hasChanges: false
+		hasChanges: false,
+		showSuccess: false,
+		showErrorMessage: false
 	}
 	const [state, dispatch] = useReducer(reducer, initialState);
+	const libCtx = useLibraryContext();
 
 	async function onSave(){
+		dispatch({action: "SET_LOADING", value: true});
+		const isNew = !Boolean(state.baroof._id);
+		const request = isNew ? createBaroof(state.baroof._id, state.baroof) : 
+		                     updateBaroof(state.baroof._id, state.baroof);
+		const resp = await request;
+		dispatch({action: "SET_LOADING", value: false});
+		console.log(resp)
+
+		if(resp.success){
+			dispatch({action: "HAS_CHANGES", value: false});
+			dispatch({action: "SHOW_SUCCESS", value: true});
+		}
+		else {
+			dispatch({action: "SHOW_ERROR", value: true});
+		}
 	}
 
 	if(!state.hasChanges && state.showExitModal)
@@ -181,6 +208,42 @@ function EditorInner(){
 
 	return (
 		<EditorProvider dispatch={dispatch}>
+			<Snackbar open={state.showSuccess}
+				autoHideDuration={3000}
+				anchorOrigin={{vertical: "top", horizontal: "center"}}
+				onClose={() => { dispatch({action: "SHOW_SUCCESS", value: false})}}
+			>
+				<Alert severity="success">
+					<AlertTitle>
+						Baroof saved successfully!
+					</AlertTitle>
+				</Alert>
+			</Snackbar>
+			<Dialog open={state.showErrorMessage}>
+				<DialogTitle>
+					<Typography variant="h3" align="center">
+						Failed to save!
+					</Typography>
+					<DialogContent>
+						<Typography variant="p">
+							Make sure that the quiz adheres to the following:
+							<ul>
+								<li>The baroof has a title</li>
+								<li>Each question has a title</li>
+								<li>Each question has at least two answers</li>
+								<li>Each question has at least one correct answers</li>
+							</ul>
+						</Typography>
+					</DialogContent>
+					<DialogActions sx={{display: "flex", justifyContent: "center"}}>
+						<Button variant="contained"  color="error"
+							onClick={() =>{dispatch({action: "SHOW_ERROR", value: false})}}
+						>
+							OK
+						</Button>
+					</DialogActions>
+				</DialogTitle>
+			</Dialog>
 			<Box>
 				<LoadingModal open={state.loading} />
 				<ExitDialog open={state.showExitModal}
