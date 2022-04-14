@@ -38,8 +38,8 @@ export default function User(){
 						}/>
 						<Route path="library/*" element={<Library />} />
 						<Route path="reports" element={<h1>Reports</h1>} />
-						<Route path="editor" element={<Editor />} />
 					</Route>
+					<Route path="editor" element={<Editor />} />
 				</Route>
 			</Route>
 		</Routes>
