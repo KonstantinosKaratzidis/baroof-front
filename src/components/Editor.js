@@ -1,6 +1,6 @@
 import {useSearchParams} from 'react-router-dom';
 import {useLibraryContext} from '../hooks/useLibraryContent';
-import {useReducer} from 'react';
+import {useReducer, useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import EditorToolbar from './EditorToolbar';
 import QuestionEditor from './QuestionEditor';
@@ -16,7 +16,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import {useNavigate, Navigate} from 'react-router-dom';
-import {updateBaroof, createBaroof} from '../api/baroofs.js';
+import {getBaroof, updateBaroof, createBaroof} from '../api/baroofs.js';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import AlertTitle from '@mui/material/AlertTitle';
@@ -57,12 +57,31 @@ function normalized(baroof){
 }
 
 function useGetBaroof(){
-	const {baroofs} = useLibraryContext();
 	const [params] = useSearchParams();
 	const _id = params.get("_id");
+	const isNew = !Boolean(_id);
+	const [baroof, setBaroof] = useState(isNew ? normalized(null) : {});
+	const [loading, setLoading] = useState(!isNew);
+	const [error, setError] = useState(false);
 
-	const matching = _.find(baroofs, (baroof) => baroof._id === _id)
-	return normalized(matching ? matching : null);
+	useEffect(() => {
+		async function doLoad(){
+			const resp = await getBaroof(_id);
+			if(!resp.success){
+				setError(true);
+				setLoading(false);
+			}
+			else{
+				setBaroof(resp.data);
+				setLoading(false);
+			}
+		}
+
+		if(!isNew)
+			doLoad();
+	}, [])
+
+	return {baroof, loading, error};
 }
 
 function reducer(state, {action, value}){
@@ -171,11 +190,10 @@ function ExitDialog({...props}){
 }
 
 // workaround for useReducer
-function EditorInner(){
-	const baroof = useGetBaroof();
+function EditorInner({baroof}){
 	const initialState = {
 		loading: false,
-		baroof: _.cloneDeep(baroof),
+		baroof,
 		editIndex: 0,
 		showExitModal: false,
 		hasChanges: false,
@@ -188,7 +206,7 @@ function EditorInner(){
 	async function onSave(){
 		dispatch({action: "SET_LOADING", value: true});
 		const isNew = !Boolean(state.baroof._id);
-		const request = isNew ? createBaroof(state.baroof._id, state.baroof) : 
+		const request = isNew ? createBaroof(state.baroof) : 
 		                     updateBaroof(state.baroof._id, state.baroof);
 		const resp = await request;
 		dispatch({action: "SET_LOADING", value: false});
@@ -258,9 +276,11 @@ function EditorInner(){
 }
 
 export default function Editor(){
-	const {loading} = useLibraryContext();
+	const {baroof, loading, error} = useGetBaroof();
 	if(loading)
-		return <CircularProgress />
+		return <LoadingModal open={loading} />
+	else if(error)
+		return <Typography variant="h1">An error occured</Typography>
 	else
-		return <EditorInner />
+		return <EditorInner baroof={baroof}/>
 }
