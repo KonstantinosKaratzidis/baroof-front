@@ -4,6 +4,10 @@ export async function getBaroofs(){
 	return await fetchGet("/baroofs");
 }
 
+export async function getBaroof(baroofId){
+	return await fetchGet(`/baroofs/${baroofId}`)
+}
+
 export async function deleteBaroof(baroofId){
 	return await fetchDelete(`/baroofs/${baroofId}`);
 }
