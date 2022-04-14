@@ -1,11 +1,9 @@
 import {useSearchParams} from 'react-router-dom';
-import {useLibraryContext} from '../hooks/useLibraryContent';
 import {useReducer, useState, useEffect} from 'react';
 import Box from '@mui/material/Box';
 import EditorToolbar from './EditorToolbar';
 import QuestionEditor from './QuestionEditor';
 import {EditorProvider, useEditorContext} from '../hooks/useEditorContext';
-import CircularProgress from '@mui/material/CircularProgress';
 import EditorSlides from './EditorSlides';
 import * as _ from 'lodash';
 import LoadingModal from './LoadingModal';
@@ -87,6 +85,9 @@ function useGetBaroof(){
 function reducer(state, {action, value}){
 	const newState = _.cloneDeep(state);
 	switch(action){
+		case "SET_ID":
+			newState.baroof._id = value;
+			break;
 		case "SHOW_ERROR":
 			newState.showErrorMessage = value;
 			break;
@@ -201,7 +202,6 @@ function EditorInner({baroof}){
 		showErrorMessage: false
 	}
 	const [state, dispatch] = useReducer(reducer, initialState);
-	const libCtx = useLibraryContext();
 
 	async function onSave(){
 		dispatch({action: "SET_LOADING", value: true});
@@ -210,11 +210,13 @@ function EditorInner({baroof}){
 		                     updateBaroof(state.baroof._id, state.baroof);
 		const resp = await request;
 		dispatch({action: "SET_LOADING", value: false});
-		console.log(resp)
+		console.log("isNew", isNew)
 
 		if(resp.success){
 			dispatch({action: "HAS_CHANGES", value: false});
 			dispatch({action: "SHOW_SUCCESS", value: true});
+			if(isNew)
+				dispatch({action: "SET_ID", value: resp.data._id})
 		}
 		else {
 			dispatch({action: "SHOW_ERROR", value: true});
