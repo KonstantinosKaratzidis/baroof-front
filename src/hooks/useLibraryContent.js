@@ -1,9 +1,11 @@
 import {createContext, useContext, useState, useEffect} from 'react';
-import {setFavorite, getBaroofs, deleteBaroof, renameBaroof} from '../api/baroofs.js';
+import {setFavorite, getBaroofs, deleteBaroof,
+	renameBaroof, updateBaroof} from '../api/baroofs.js';
 import {Outlet} from 'react-router-dom';
 
 const LibraryContext = createContext();
 const renameBaroofApi = renameBaroof; // fixes name clash
+const updateBaroofApi = updateBaroof;
 
 export default function LibraryProvider({children}){
 	const [loading, setLoading] = useState(true);
@@ -66,6 +68,22 @@ export default function LibraryProvider({children}){
 		}
 	}
 
+	async function updateBaroof(baroofId, baroof){
+		if(!baroof)
+			return;
+		setLoading(true);
+		const resp = await updateBaroofApi(baroofId, baroof);
+		setLoading(false);
+		if(resp.success){
+			setBaroofs(baroofs.map(baroof_ => {
+				if(baroof_._id !== baroof._id)
+					return baroof_;
+				return resp.data;
+			}))
+		}
+		return resp;
+	}
+
 	return (
 		<LibraryContext.Provider value={{
 			loading,
@@ -73,7 +91,8 @@ export default function LibraryProvider({children}){
 			baroofs,
 			delBaroof,
 			renameBaroof,
-			setFavoriteBaroof
+			setFavoriteBaroof,
+			updateBaroof
 		}}>
 			<Outlet />
 		</LibraryContext.Provider>
