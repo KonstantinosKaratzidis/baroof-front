@@ -20,6 +20,7 @@ export default function HomePageLayout({children, ...props}){
 				</Typography>
 				<Paper>
 					<Outlet />
+					{children}
 				</Paper>
 			</Box>
 		</Box>
