@@ -41,8 +41,8 @@ export default function User(){
 						<Route path="reports/*" element={<h1>Reports</h1>} />
 					</Route>
 					<Route path="editor" element={<Editor />} />
-					<Route path="host/:baroofId" element={<Host />} />
 				</Route>
+				<Route path="host/:baroofId" element={<Host />} />
 			</Route>
 		</Routes>
 	)
