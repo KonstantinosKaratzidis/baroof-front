@@ -70,7 +70,7 @@ function useGetBaroof(){
 				setLoading(false);
 			}
 			else{
-				setBaroof(resp.data);
+				setBaroof(normalized(resp.data));
 				setLoading(false);
 			}
 		}
@@ -210,7 +210,6 @@ function EditorInner({baroof}){
 		                     updateBaroof(state.baroof._id, state.baroof);
 		const resp = await request;
 		dispatch({action: "SET_LOADING", value: false});
-		console.log("isNew", isNew)
 
 		if(resp.success){
 			dispatch({action: "HAS_CHANGES", value: false});
